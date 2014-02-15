@@ -6,13 +6,25 @@ class QueryBuilder
 {       
     private $_sphinxClient;
     
-    private $_index;
+    private $_index = array();
     
-    private $_query;
+    private $_query = array();
     
-    public function __construct(array $options)
+    public function __construct()
     {        
         $this->_sphinxClient = new \SphinxClient;
+    }
+    
+    public function in($index)
+    {
+        if(is_array($index)) {
+            $this->_index = array_merge($this->_index, $index);
+        }
+        else {
+            $this->_index[] = $index;
+        }
+        
+        return $this;
     }
     
     public function setServer($host, $port = \Sokil\SphinxSearch::DEFAULT_PORT)
@@ -51,15 +63,15 @@ class QueryBuilder
         return $this;
     }
     
-    public function where($field, $value)
+    public function match($query)
     {
-        $this->_query[$field] = $value;
+        $this->_query[] = $query;
         return $this;
     }
     
     public function getTextQuery()
     {
-        
+        return implode(' ', $this->_query);
     }
     
     public function __toString()
@@ -73,15 +85,28 @@ class QueryBuilder
         return $this;
     }
     
-    public function fetch($index = null)
+    public function getLastError()
     {
-        $query = $this->__toString();
-        
-        $result = $this->_sphinxClient->query($query, $index);
-        if(!$result) {
-            throw new \Exception('Error executing query');
+        return $this->_sphinxClient->getLastError();
+    }
+    
+    public function fetch()
+    {
+        // index
+        if($this->_index) {
+            $index = implode(',', $this->_index);
+        }
+        else {
+            $index = '*';
         }
         
+        // execute query
+        $result = $this->_sphinxClient->query($this->getTextQuery(), $index);
+        if(!$result) {
+            throw new \Exception('Error executing query: ' . $this->getLastError());
+        }
+        
+        // generate iterator
         return new ResultSet($result);
     }
 }

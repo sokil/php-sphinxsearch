@@ -2,7 +2,7 @@
 
 namespace Sokil;
 
-class SphinxSearchTest extends \PHPUnit_Framework_TestCase
+class SphinxClientTest extends \PHPUnit_Framework_TestCase
 {
     public function testNativeSphinxClient()
     {
@@ -12,19 +12,10 @@ class SphinxSearchTest extends \PHPUnit_Framework_TestCase
         $client->setSortMode(SPH_SORT_RELEVANCE);
         $client->setLimits(0, 5, 5);
         
-        $result = $client->query('If', 'idx_posts');
+        $result = $client->query('"If you can" "keep"', 'idx_comments,idx_posts,');
         var_dump($client->getLastError());
         print_r($result);
         
         $this->assertNotEmpty($result);
-    }
-    
-    public function testSearch()
-    {
-        $factory = new QueryFactory('127.0.0.1', 23023);
-        
-        $factory
-            ->find('idx_posts')
-            ->where('');
     }
 }

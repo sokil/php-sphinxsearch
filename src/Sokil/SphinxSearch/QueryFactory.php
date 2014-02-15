@@ -1,10 +1,10 @@
 <?php
 
-namespace Sokil;
+namespace Sokil\SphinxSearch;
 
 class QueryFactory
 {
-    const DEFAULT_PORT = 9312;
+    const DEFAULT_PORT = 3312;
     
     private $_host;
     
