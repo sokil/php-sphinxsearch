@@ -1,1 +1,6 @@
 nbproject
+/vendor/
+/index/data
+/index/log
+/index/searchd.pid
+
