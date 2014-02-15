@@ -22,4 +22,20 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
             $this->assertNotEmpty($resultItem->getWeight());
         }
     }
+    
+    public function testFetchUnexisted()
+    {
+        $qf = new QueryFactory('127.0.0.1', '23023');
+        
+        $resultSet = $qf->find()
+            ->in('idx_posts')
+            ->match('unexisted_string')
+            ->fetch();
+        
+        $this->assertInstanceOf('\Sokil\SphinxSearch\ResultSet', $resultSet);
+        
+        $this->assertEquals(0, count($resultSet));
+        
+        $this->assertEmpty($resultSet->current());
+    }
 }

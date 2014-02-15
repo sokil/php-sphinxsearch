@@ -6,40 +6,53 @@ class ResultSet implements \Iterator, \Countable
 {
     private $_result;
     
-    public function __construct(array $result) {
+    private $_matches;
+    
+    public function __construct(array $result) 
+    {
         $this->_result = $result;
+        
+        $this->_matches = isset($this->_matches) 
+            ? $this->_result['matches']
+            : array();
     }
     
     public function rewind()
     {
-        reset($this->_result['matches']);
+        reset($this->_matches);
         return $this;
     }
     
     public function key()
     {
-        return key($this->_result['matches']);
+        return key($this->_matches);
     }
     
     public function valid()
     {
-        return isset($this->_result['matches'][$this->key()]);
+        return isset($this->_matches[$this->key()]);
     }
     
     public function next()
     {
-        next($this->_result['matches']);
+        next($this->_matches);
         return $this;
     }
     
     public function current()
     {
-        return new ResultItem($this->_result['matches'][$this->key()]);
+        $current = current($this->_matches);
+        if($current) {
+            return new ResultItem($current);
+        }
+        else {
+            return null;
+        }
     }
     
     public function count()
     {
-        return count($this->_result['matches']);
+        return (int) $this->_result['total'];
     }
     
     public function toArray()
