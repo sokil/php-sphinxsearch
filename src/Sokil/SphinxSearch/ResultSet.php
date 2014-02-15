@@ -12,7 +12,7 @@ class ResultSet implements \Iterator, \Countable
     {
         $this->_result = $result;
         
-        $this->_matches = isset($this->_matches) 
+        $this->_matches = isset($this->_result['matches']) 
             ? $this->_result['matches']
             : array();
     }
@@ -61,9 +61,9 @@ class ResultSet implements \Iterator, \Countable
     }
     
     public function getColumn($name)
-    {
+    {        
         return array_map(function($resultItem) use($name) {
-            return $resultItem['attrs'][$name];
-        });
+            return isset($resultItem['attrs'][$name]) ? $resultItem['attrs'][$name] : null;
+        }, $this->_matches);
     }
 }
