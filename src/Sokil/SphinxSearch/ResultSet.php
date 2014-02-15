@@ -59,4 +59,11 @@ class ResultSet implements \Iterator, \Countable
     {
         return $this->_result;
     }
+    
+    public function getColumn($name)
+    {
+        return array_map(function($resultItem) use($name) {
+            return $resultItem['attrs'][$name];
+        });
+    }
 }
