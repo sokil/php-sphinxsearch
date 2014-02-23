@@ -79,9 +79,9 @@ class QueryBuilder
         return $this->getTextQuery();
     }
     
-    public function setLimit($offset, $limit)
+    public function setLimit($limit, $offset = 0)
     {
-        $this->_sphinxClient->setLimits($offset, $limit, $limit);
+        $this->_sphinxClient->setLimits($offset, $limit, $limit + $offset);
         return $this;
     }
     

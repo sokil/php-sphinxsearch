@@ -3,12 +3,16 @@
 namespace Sokil\SphinxSearch;
 
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
-{  
+{
+    private $_queryFactory;
+    
+    public function setUp() {
+        $this->_queryFactory = new QueryFactory('127.0.0.1', '23023');
+    }
+    
     public function testFetch()
-    {
-        $qf = new QueryFactory('127.0.0.1', '23023');
-        
-        $resultSet = $qf->find()
+    {        
+        $resultSet = $this->_queryFactory->find()
             ->in('idx_posts')
             ->match('If you can')
             ->fetch();
@@ -25,9 +29,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     
     public function testFetchUnexisted()
     {
-        $qf = new QueryFactory('127.0.0.1', '23023');
-        
-        $resultSet = $qf->find()
+        $resultSet = $this->_queryFactory->find()
             ->in('idx_posts')
             ->match('unexisted_string')
             ->fetch();
@@ -37,5 +39,30 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($resultSet));
         
         $this->assertEmpty($resultSet->current());
+    }
+    
+    public function testLimit()
+    {
+        $limit = 3;
+        $offset = 2;
+        
+        // get without limits
+        $resultSet = $this->_queryFactory->find()
+            ->match('if')
+            ->fetch();
+        
+        $fullIdList = $resultSet->getDocumentIdList();
+        
+        // get limited
+        // get without limits
+        $resultSet = $this->_queryFactory->find()
+            ->match('if')
+            ->setLimit($limit, $offset)
+            ->fetch();
+        
+        $this->assertEquals(
+            array_slice($fullIdList, $offset, $limit),
+            $resultSet->getDocumentIdList()
+        );
     }
 }
