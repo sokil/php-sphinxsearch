@@ -20,6 +20,13 @@ class ResultItem
         return $this->_resultItem['attrs'];
     }
     
+    public function getAttribute($name)
+    {
+        return isset($this->_resultItem['attrs'][$name])
+            ? $this->_resultItem['attrs'][$name]
+            : null;
+    }
+    
     public function toArray()
     {
         return $this->_resultItem;
