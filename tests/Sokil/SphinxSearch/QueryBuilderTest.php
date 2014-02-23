@@ -83,4 +83,18 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
             'Filter not working'
         );
     }
+    
+    public function testMultipleWhereAttribute()
+    {        
+        $resultSet = $this->_queryFactory->find()
+            ->match('if')
+            ->in('idx_comments')
+            ->whereAttribute('user_id', 2)
+            ->whereAttribute('post_id', 2)
+            ->fetch();
+        
+        $this->assertEquals(2, $resultSet->current()->getAttribute('user_id'));
+        
+        $this->assertEquals(2, $resultSet->current()->getAttribute('post_id'));
+    }
 }
