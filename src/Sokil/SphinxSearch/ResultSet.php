@@ -66,4 +66,9 @@ class ResultSet implements \Iterator, \Countable
             return isset($resultItem['attrs'][$name]) ? $resultItem['attrs'][$name] : null;
         }, $this->_matches);
     }
+    
+    public function getDocumentIdList()
+    {
+        return array_keys($this->_result['matches']);
+    }
 }
