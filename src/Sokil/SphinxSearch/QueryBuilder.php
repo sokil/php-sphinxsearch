@@ -59,7 +59,7 @@ class QueryBuilder
     
     public function exceptAttribute($name, $value)
     {
-        $this->_sphinxClient->setFilter($name, $value, true);
+        $this->_sphinxClient->setFilter($name, (array) $value, true);
         return $this;
     }
     
