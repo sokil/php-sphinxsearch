@@ -53,7 +53,7 @@ class QueryBuilder
     
     public function whereAttribute($name, $value)
     {
-        $this->_sphinxClient->setFilter($name, $value);
+        $this->_sphinxClient->setFilter($name, (array) $value);
         return $this;
     }
     

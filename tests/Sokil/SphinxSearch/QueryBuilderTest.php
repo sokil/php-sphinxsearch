@@ -65,4 +65,22 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
             $resultSet->getDocumentIdList()
         );
     }
+    
+    public function testWhereAttribute()
+    {
+        $value = 2;
+        
+        $resultSet = $this->_queryFactory->find()
+            ->match('if')
+            ->whereAttribute('user_id', $value)
+            ->fetch();
+        
+        $userIdList = $resultSet->getColumn('user_id');
+        
+        $this->assertEquals(
+            $value * count($userIdList), 
+            array_sum($userIdList),
+            'Filter not working'
+        );
+    }
 }
