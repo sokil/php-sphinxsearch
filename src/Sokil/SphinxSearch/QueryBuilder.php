@@ -10,6 +10,10 @@ class QueryBuilder
     
     private $_query = array();
     
+    private $_matchMode;
+    
+    private $_sortMode;
+    
     public function __construct()
     {        
         $this->_sphinxClient = new \SphinxClient;
@@ -35,13 +39,50 @@ class QueryBuilder
     
     public function setMatchMode($matchMode)
     {
+        $this->_matchMode = $matchMode;
         $this->_sphinxClient->setMatchMode($matchMode);
         return $this;
     }
     
-    public function setSortMode($sortMode)
+    public function sortByRelevance()
     {
-        $this->_sphinxClient->setSortMode($sortMode);
+        $this->_sortMode = SPH_SORT_RELEVANCE;
+        $this->_sphinxClient->setSortMode($this->_sortMode);
+        return $this;
+    }
+    
+    public function sortByAttributeAscending($attribute)
+    {
+        $this->_sortMode = SPH_SORT_ATTR_ASC;
+        $this->_sphinxClient->setSortMode($this->_sortMode, $attribute);
+        return $this;
+    }
+    
+    public function sortByAttributeDescending($attribute)
+    {
+        $this->_sortMode = SPH_SORT_ATTR_DESC;
+        $this->_sphinxClient->setSortMode($this->_sortMode, $attribute);
+        return $this;
+    }
+    
+    public function sortByTimeSegments($attribute)
+    {
+        $this->_sortMode = SPH_SORT_TIME_SEGMENTS;
+        $this->_sphinxClient->setSortMode($this->_sortMode, $attribute);
+        return $this;
+    }
+    
+    public function sortByAttributes(array $list)
+    {
+        $this->_sortMode = SPH_SORT_EXTENDED;
+        
+        $query = array();
+        foreach($list as $field => $direction) {
+            $direction = ($direction === 1) ? 'ASC' : ' DESC';
+            $query[] = $field . ' ' . $direction;
+        }
+        
+        $this->_sphinxClient->setSortMode($this->_sortMode, implode(',', $query));
         return $this;
     }
     
@@ -92,6 +133,14 @@ class QueryBuilder
     
     public function fetch()
     {
+        if(!$this->_matchMode) {
+            $this->setMatchMode(SPH_MATCH_EXTENDED2);
+        }
+        
+        if(!$this->_sortMode) {
+            $this->sortByRelevance();
+        }
+        
         // index
         if($this->_index) {
             $index = implode(',', $this->_index);
