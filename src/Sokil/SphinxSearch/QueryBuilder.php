@@ -78,7 +78,7 @@ class QueryBuilder
         
         $query = array();
         foreach($list as $field => $direction) {
-            $direction = ($direction === 1) ? 'ASC' : ' DESC';
+            $direction = ($direction === 1) ? 'ASC' : 'DESC';
             $query[] = $field . ' ' . $direction;
         }
         
