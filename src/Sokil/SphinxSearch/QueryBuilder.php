@@ -72,7 +72,7 @@ class QueryBuilder
         return $this;
     }
     
-    public function sortByAttributes(array $list)
+    public function sort(array $list)
     {
         $this->_sortMode = SPH_SORT_EXTENDED;
         

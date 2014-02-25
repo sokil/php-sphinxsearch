@@ -97,4 +97,35 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals(2, $resultSet->current()->getAttribute('post_id'));
     }
+    
+    public function testSort()
+    {
+        // get without sort
+        $resultSet = $this->_queryFactory->find()
+            ->match('if')
+            ->in('idx_comments')
+            ->sort(array(
+                'user_id'   => -1,
+                'post_id'   => -1,
+            ))
+            ->fetch();
+        
+        // get sorted
+        $resultSetSorted = $this->_queryFactory->find()
+            ->match('if')
+            ->in('idx_comments')
+            ->sort(array(
+                'user_id'   => -1,
+                'post_id'   => -1,
+            ))
+            ->fetch();
+        
+        $sortedUserId   = $resultSet->getColumn('user_id');
+        arsort($sortedUserId);
+        $this->assertEquals($resultSetSorted->getColumn('user_id'), $sortedUserId);
+        
+        $sortedPostId    = $resultSet->getColumn('post_id');
+        arsort($sortedPostId);
+        $this->assertEquals($resultSetSorted->getColumn('post_id'), $sortedPostId);
+    }
 }
