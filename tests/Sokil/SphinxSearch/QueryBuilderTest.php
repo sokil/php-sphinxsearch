@@ -15,10 +15,10 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $resultSet = $this->_queryFactory->find()
             ->in('idx_posts')
             ->match('If you can')
+            ->setLimit(2)
             ->fetch();
         
         $this->assertInstanceOf('\Sokil\SphinxSearch\ResultSet', $resultSet);
-        
         
         foreach($resultSet as $id => $resultItem) {
             $this->assertNotEmpty($id);

@@ -55,6 +55,13 @@ class ResultSet implements \Iterator, \Countable
         return (int) $this->_result['total'];
     }
     
+    public function getTotalCount()
+    {
+        return isset($this->_result['total_found'])
+            ? (int) $this->_result['total_found']
+            : 0;
+    }
+    
     public function toArray()
     {
         return $this->_result;
