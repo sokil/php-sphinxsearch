@@ -101,7 +101,8 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testSort()
     {
         // get without sort
-        $resultSet = $this->_queryFactory->find()
+        $resultSet = $this->_queryFactory
+            ->find()
             ->match('if')
             ->in('idx_comments')
             ->sort(array(
@@ -111,7 +112,8 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
             ->fetch();
         
         // get sorted
-        $resultSetSorted = $this->_queryFactory->find()
+        $resultSetSorted = $this->_queryFactory
+            ->find()
             ->match('if')
             ->in('idx_comments')
             ->sort(array(
@@ -127,5 +129,20 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $sortedPostId    = $resultSet->getColumn('post_id');
         arsort($sortedPostId);
         $this->assertEquals($resultSetSorted->getColumn('post_id'), $sortedPostId);
+    }
+    
+    public function testFetchMultipleIndex()
+    {
+        $resultSet = $this->_queryFactory
+            ->find()
+            ->in(array(
+                'idx_posts_user_1',
+                'idx_posts_user_2',
+            ))
+            ->fetch();
+        
+        foreach($resultSet as $result) {
+            $this->assertTrue(in_array($result->getAttribute('user_id'), array(1,2)));
+        }
     }
 }
