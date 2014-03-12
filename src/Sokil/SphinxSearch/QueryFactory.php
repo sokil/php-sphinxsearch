@@ -24,10 +24,17 @@ class QueryFactory
     
     public function find()
     {
-        $queryBuilder = new QueryBuilder;
+        $query = new SingleQuery;
+        $query->setServer($this->_host, $this->_port);
         
-        $queryBuilder->setServer($this->_host, $this->_port);
+        return $query;
+    }
+    
+    public function batchFind()
+    {
+        $query = new BatchQuery;
+        $query->setServer($this->_host, $this->_port);
         
-        return $queryBuilder;
+        return $query;
     }
 }

@@ -13,8 +13,6 @@ class SphinxClientTest extends \PHPUnit_Framework_TestCase
         $client->setLimits(0, 5, 5);
         
         $result = $client->query('"If you can" "keep"', 'idx_comments,idx_posts,');
-        var_dump($client->getLastError());
-        print_r($result);
         
         $this->assertNotEmpty($result);
     }
