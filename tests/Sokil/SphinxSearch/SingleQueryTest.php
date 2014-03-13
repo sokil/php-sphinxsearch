@@ -70,7 +70,9 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $value = 2;
         
-        $resultSet = $this->_queryFactory->find()
+        $resultSet = $this->_queryFactory
+            ->find()
+            ->in('idx_posts')
             ->match('if')
             ->whereAttribute('user_id', $value)
             ->fetch();
