@@ -3,6 +3,25 @@ php-spinxsearch
 
 PHP wrapper to sphinx search pecl extension. Wotking with search results as objects.
 
+Installation
+------------
+
+You need to have sphinx pecl extension installed. For Ubuntu or debian based distributives:
+```
+$ sudo apt-get install php5-dev php-pear
+$ sudo pecl install sphinx
+```
+
+Add requirement to your composer:
+```javascript
+{
+    "require": {
+        "sokil/php-sphinxsearch": "dev-master"
+    }
+}
+```
+
+
 Basic Usage
 -----------
 
