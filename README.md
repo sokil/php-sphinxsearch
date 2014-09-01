@@ -8,7 +8,7 @@ Installation
 
 You need to have sphinx pecl extension installed. For Ubuntu or Debian based distributives:
 ```
-$ sudo apt-get install php5-dev php-pear
+$ sudo apt-get install php5-dev php-pear libsphinxclient-dev
 $ sudo pecl install sphinx
 ```
 
