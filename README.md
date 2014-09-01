@@ -6,7 +6,7 @@ PHP wrapper to sphinx search pecl extension. Wotking with search results as obje
 Installation
 ------------
 
-You need to have sphinx pecl extension installed. For Ubuntu or debian based distributives:
+You need to have sphinx pecl extension installed. For Ubuntu or Debian based distributives:
 ```
 $ sudo apt-get install php5-dev php-pear
 $ sudo pecl install sphinx
