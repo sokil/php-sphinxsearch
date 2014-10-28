@@ -1,7 +1,7 @@
 php-spinxsearch
 ===============
 
-PHP wrapper to sphinx search pecl extension. Wotking with search results as objects.
+PHP wrapper to sphinx search pecl extension. Working with search results as objects.
 
 Installation
 ------------
