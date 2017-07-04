@@ -1,4 +1,4 @@
-php-spinxsearch
+php-sphinxsearch
 ===============
 
 PHP wrapper to sphinx search pecl extension. Working with search results as objects.
